@@ -1,10 +1,8 @@
 """Load the public Borg spreadsheet; no external database is used."""
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
-from lib.features import compute_borg_features, compute_microstructure_features, MICROSTRUCTURE_COLS
 
 BORG_NUMERIC_COLS = ["R Var", "R", "B_avgr", "G_avgr", "V_Delt", "VEC Avg", "Tm Avg", "R_Delt"]
 PROC_MAP = {"CAST": 0, "ANNEAL": 1, "WROUGHT": 2, "OTHER": 3}
@@ -38,7 +36,6 @@ RADICAL_VELA_FORCED_FEATURE_COLS = ["processing_code"]
 CELSIUS_TO_KELVIN = 273.15
 DEFAULT_TEST_TEMPERATURE_K = 298.15
 
-RAW_DATA_DIR = Path(__file__).resolve().parents[1]
 BORG_DATA_FILE = Path(__file__).resolve().parents[1] / "data" / "borg" / "Borg_Dataset_PUB.xlsx"
 
 

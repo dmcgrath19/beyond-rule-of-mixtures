@@ -13,8 +13,6 @@ from composition_features import composition_to_features
 from effective_volume_gp import (BORG_XLSX, BORG_NUM_COLS, PROC_MAP, DT, build_borg,
                                 curtin_intermediates, fit_fold, predict)
 from curtin_ys_prior import LATTICE_CONSTANTS_BCC_EXP
-_PROC_MAP = PROC_MAP
-_curtin_intermediates = curtin_intermediates
 _KERNEL_KEYS = ["R_Var", "R_pm", "B_GPa", "G_GPa", "Poisson_Delt", "VEC", "Tm_K", "R_Delt"]
 def _comp_kernel_feats(formula):
     feats = composition_to_features(formula, return_dict=True)

@@ -22,7 +22,6 @@ from run import (
     COMPOSITION_COLS,
     PHYS_COLS,
     _feature_cols_for,
-    add_composition_intermediates,
     run_gpytorch_gpr,
 )
 
@@ -59,14 +58,6 @@ def balanced_group_folds(groups: pd.Series, n_splits: int = 5, seed: int = 42):
         test_mask = groups.isin(test_groups).to_numpy()
         folds.append((all_indices[~test_mask], all_indices[test_mask]))
     return folds
-
-
-def aggregate_hadex_samples(df: pd.DataFrame) -> pd.DataFrame:
-    """Return one row per physical sample, averaging repeated hardness summaries."""
-    first = df.groupby("sample_id", sort=True, as_index=False).first()
-    means = df.groupby("sample_id", sort=True)["HV"].mean()
-    first["HV"] = first["sample_id"].map(means)
-    return first.reset_index(drop=True)
 
 
 def load_cohort(dataset: str, model_name: str, aggregate_samples: bool = False) -> pd.DataFrame:

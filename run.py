@@ -2,7 +2,6 @@
 
 No database access or proprietary datasets are included. See configs/training_settings.json.
 """
-import argparse
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -16,23 +15,15 @@ from sklearn.model_selection import KFold
 
 from models import (
     ModelConfig,
-    get_model_config,
     HardnessGP,
-    build_repeated_grouped_twofolds,
     compute_yield_strength,
     curtin_intermediates,
     composition_supported,
-    fit_residual_gp_and_predict,
-    metrics_from_predictions,
-    select_vela_feature_sets,
 )
 from models.sigma_models import SigmaModelSpec
 from utils.load_data import (
     FEATURE_COLS,
-    VELA_FEATURE_COLS,
-    VELA_FORCED_FEATURE_COLS,
     load_borg,
-    load_borg_yield_strength,
 )
 from lib.features import MICROSTRUCTURE_COLS
 from lib.physics import SUPPORTED_ELEMENTS, composition_fraction_array
