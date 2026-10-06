@@ -24,6 +24,8 @@ class Data:
 
     def v_base(self, anchor="table5", a_ti=None):
         v = [LATT[e] ** 3 / 2 for e in self.basis]
+        if anchor == "table5":
+            v[self.ti] = 3.320 ** 3 / 2
         if anchor == "mlip":
             for i, e in enumerate(self.basis):
                 if e in MLIP_VOLUME:

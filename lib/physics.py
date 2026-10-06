@@ -64,7 +64,7 @@ LATTICE_CONSTANTS_BCC_EXP: Final[dict[str, float]] = {
     "Co": 2.82,
     "Ni": 2.88,
     "Cu": 2.89,
-    "Ti": 3.32,
+    "Ti": 3.26,
     "Zr": 3.57,
     "Hf": 3.53,
     "Mn": 2.99,

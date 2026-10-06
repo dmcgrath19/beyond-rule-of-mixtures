@@ -59,7 +59,7 @@ LATTICE_CONSTANTS_BCC_EXP: Final[dict[str, float]] = {
     "Co": 2.82,  # bcc-Co (metastable, from thin films)
     "Ni": 2.88,  # bcc-Ni (metastable, from sputtered films)
     "Cu": 2.89,  # bcc-Cu (metastable, thin-film phase)
-    "Ti": 3.32,  # β-Ti (stable at >1155 K, metastable at RT)
+    "Ti": 3.26,  # β-Ti (stable at >1155 K, metastable at RT)
     "Zr": 3.57,  # β-Zr (stable >1135 K, metastable at RT)
     "Hf": 3.53,  # β-Hf (stable >2030 K, metastable at RT)
     "Mn": 2.99,  # β-Mn approximated to bcc-like phase
