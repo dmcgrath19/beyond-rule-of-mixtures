@@ -57,7 +57,7 @@ warnings.filterwarnings("ignore")
 DEV = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 DT = torch.float64
 
-BORG_XLSX = REPO / "Borg_Datase_PUB.xlsx"
+BORG_XLSX = REPO / "data" / "borg" / "Borg_Dataset_PUB.xlsx"
 
 VARIANTS = ("analytic", "shared_sigma", "effective_volume")
 

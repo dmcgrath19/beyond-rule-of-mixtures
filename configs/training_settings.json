@@ -1,0 +1,106 @@
+{
+  "model": {
+    "correction_heads": "composition vector on the element basis -> one hidden tanh layer -> zero-initialised output; bounded by exp(+-beta tanh)",
+    "optimizer": "Adam, two stages (kernel-only, then joint); physical prefactors re-optimised in every training fold; double precision; no restarts",
+    "element_basis": "lib.physics.SUPPORTED_ELEMENTS",
+    "cohort_grouped": "Borg, 93 room-temperature rows; data/borg/cohort.csv",
+    "models": [
+      "analytic",
+      "composition",
+      "effective",
+      "gao_rf",
+      "gao_svr",
+      "vela"
+    ],
+    "groups": [
+      "random",
+      "formula",
+      "reference",
+      "system"
+    ],
+    "fold_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "analyses": {
+    "grouped_validation": {
+      "tables": "grouped cross-validation (Borg and HADEX), repeated-protocol calibration and conformal, held-out alloys, volume stability, mass balance",
+      "settings": {
+        "kernel": "RBF ARD",
+        "hidden_width": 4,
+        "beta": 0.05,
+        "stage1_steps": 200,
+        "stage1_lr": 0.05,
+        "stage2_steps": 800,
+        "stage2_lr": 0.005,
+        "head_lr": 0.001,
+        "head_weight_decay": 0.01,
+        "head_frozen_stage2_steps": 600,
+        "analytic_and_composition_arms": {
+          "stage1_steps": 200,
+          "stage1_lr": 0.05,
+          "stage2_steps": 800,
+          "stage2_lr": 0.01
+        }
+      }
+    },
+    "single_split_controls": {
+      "tables": "single-split controls",
+      "settings": {
+        "kernel": "Matern-5/2 ARD",
+        "hidden_width": 32,
+        "beta": 0.02,
+        "stage1_steps": 150,
+        "stage1_lr": 0.05,
+        "stage2_steps": 500,
+        "stage2_lr": 0.01
+      }
+    },
+    "calibration_and_conformal": {
+      "tables": "calibration table, reliability figure, 20-split conformal table and verification figure",
+      "settings": {
+        "kernel": "Matern-5/2 ARD",
+        "hidden_width": 32,
+        "beta": 0.02,
+        "stage1_steps": 150,
+        "stage1_lr": 0.05,
+        "stage2_steps": 500,
+        "stage2_lr": 0.01
+      }
+    },
+    "learning_curves": {
+      "tables": "learning curves (150 repeats)",
+      "settings": {
+        "kernel": "Matern-5/2 ARD",
+        "hidden_width": 32,
+        "beta": 0.02,
+        "stage1_steps": 150,
+        "stage1_lr": 0.05,
+        "stage2_steps": 500,
+        "stage2_lr": 0.01
+      }
+    },
+    "beta_sweep": {
+      "tables": "beta sweep under formula-grouped CV; selection by out-of-fold MAE",
+      "settings": "each analysis swept at its own width/schedule; selected beta listed above"
+    },
+    "prefactors_and_volume_anchors": {
+      "tables": "learned prefactors, volume-anchor comparison",
+      "settings": {
+        "kernel": "Matern-5/2 ARD",
+        "hidden_width": 32,
+        "beta": 0.02,
+        "stage1_steps": 150,
+        "stage1_lr": 0.05,
+        "stage2_steps": 500,
+        "stage2_lr": 0.01
+      }
+    }
+  },
+  "beta_selection": "out-of-fold MAE of the effective-volume arm under formula-grouped five-fold cross-validation on the 93 room-temperature Borg rows",
+  "historical_rng": "Initialisation RNG state was not saved. Archived predictions reproduce tables; new refits use explicit seeds and are not bitwise replicas."
+}

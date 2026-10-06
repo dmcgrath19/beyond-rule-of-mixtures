@@ -1,0 +1,60 @@
+{
+  "requested_composition": "Ti40.0000 W60.0000",
+  "x_Ti_realized": 0.4074074074074074,
+  "n_atoms": 54,
+  "eos_points": [
+    {
+      "job_name": "Ti40p0000_W60p0000_v0",
+      "input_volume_A3": 840.858819132205,
+      "final_volume_A3": 840.858819132205,
+      "energy_eV": -586.74171305,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Ti40p0000_W60p0000_v1",
+      "input_volume_A3": 852.5374138423748,
+      "final_volume_A3": 852.5374138423748,
+      "energy_eV": -587.29492987,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Ti40p0000_W60p0000_v2",
+      "input_volume_A3": 864.2160085525437,
+      "final_volume_A3": 864.2160085525437,
+      "energy_eV": -587.61904373,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Ti40p0000_W60p0000_v3",
+      "input_volume_A3": 875.8946032627134,
+      "final_volume_A3": 875.8946032627134,
+      "energy_eV": -587.73040702,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Ti40p0000_W60p0000_v4",
+      "input_volume_A3": 887.5731979728829,
+      "final_volume_A3": 887.5731979728829,
+      "energy_eV": -587.64227521,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Ti40p0000_W60p0000_v5",
+      "input_volume_A3": 899.2517926830525,
+      "final_volume_A3": 899.2517926830525,
+      "energy_eV": -587.36689275,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Ti40p0000_W60p0000_v6",
+      "input_volume_A3": 910.9303873932222,
+      "final_volume_A3": 910.9303873932222,
+      "energy_eV": -586.91861555,
+      "n_atoms": 54
+    }
+  ],
+  "v0_total_A3": 876.4260680183528,
+  "volume_per_atom_A3": 16.230112370710238,
+  "bulk_modulus_GPa": 204.5780692866639,
+  "mlip_volume_per_atom_A3": 16.220270430790986
+}

@@ -1,0 +1,67 @@
+{
+  "requested_composition": "Mo80.0000 Ta20.0000",
+  "x_Mo_realized": 0.7962962962962963,
+  "x_Ti_realized": 0.0,
+  "x_Ta_realized": 0.2037037037037037,
+  "x_Ti_requested": 0.0,
+  "x_Mo_requested": 0.8,
+  "x_Ta_requested": 0.2,
+  "n_atoms": 54,
+  "eos_points": [
+    {
+      "job_name": "Mo80p0000_Ta20p0000_v0",
+      "input_volume_A3": 843.765424185069,
+      "final_volume_A3": 843.765424185069,
+      "energy_eV": -603.13644801,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo80p0000_Ta20p0000_v1",
+      "input_volume_A3": 855.4843884098616,
+      "final_volume_A3": 855.4843884098616,
+      "energy_eV": -603.73318331,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo80p0000_Ta20p0000_v2",
+      "input_volume_A3": 867.2033526346547,
+      "final_volume_A3": 867.2033526346547,
+      "energy_eV": -604.05091342,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo80p0000_Ta20p0000_v3",
+      "input_volume_A3": 878.9223168594466,
+      "final_volume_A3": 878.9223168594466,
+      "energy_eV": -604.110927,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo80p0000_Ta20p0000_v4",
+      "input_volume_A3": 890.64128108424,
+      "final_volume_A3": 890.64128108424,
+      "energy_eV": -603.93104901,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo80p0000_Ta20p0000_v5",
+      "input_volume_A3": 902.3602453090319,
+      "final_volume_A3": 902.3602453090319,
+      "energy_eV": -603.5283382,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo80p0000_Ta20p0000_v6",
+      "input_volume_A3": 914.0792095338245,
+      "final_volume_A3": 914.0792095338245,
+      "energy_eV": -602.9192992,
+      "n_atoms": 54
+    }
+  ],
+  "v0_total_A3": 875.8679522657934,
+  "volume_per_atom_A3": 16.219776893810987,
+  "bulk_modulus_GPa": 249.6767373604802,
+  "mlip_volume_per_atom_A3": 16.276339201100864,
+  "V_vegard_lit_A3": 16.398718117572205,
+  "delta_V_mlip_lit_A3": -0.1223789164713409
+}

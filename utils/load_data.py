@@ -39,7 +39,7 @@ CELSIUS_TO_KELVIN = 273.15
 DEFAULT_TEST_TEMPERATURE_K = 298.15
 
 RAW_DATA_DIR = Path(__file__).resolve().parents[1]
-BORG_DATA_FILE = RAW_DATA_DIR / "Borg_Datase_PUB.xlsx"
+BORG_DATA_FILE = Path(__file__).resolve().parents[1] / "data" / "borg" / "Borg_Dataset_PUB.xlsx"
 
 
 def _processing_code(value: str | float | None) -> int:

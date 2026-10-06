@@ -136,6 +136,8 @@ def main() -> None:
                         help="Borg: drop rows whose test temperature was imputed (cohort suffix _measuredtemp)")
     parser.add_argument("--init-seed", type=int,
                         help="seed torch before fitting, for initialisation-stability runs (label suffix _init<N>)")
+    parser.add_argument("--log-bound", type=float,
+                        help="override the correction bound beta of the effective-volume head (label suffix _beta<value>)")
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
     parser.add_argument("--fold-file", type=Path, help="CSV with borg_row_id and fold; reuse archived folds")
     parser.add_argument("--smoke", action="store_true", help="2 steps per stage, first fold only; not paper results")
@@ -159,6 +161,8 @@ def main() -> None:
     if args.exclude_imputed_temperature:
         df = df[df["Test temperature"].notna()].reset_index(drop=True)
     config = model_config(args.model)
+    if args.log_bound is not None:
+        config = replace(config, sigma_log_bound=args.log_bound)
     required = _feature_cols_for(config) + PHYS_COLS + COMPOSITION_COLS + ["HV", "HV_prior"]
     df = df.dropna(subset=required).reset_index(drop=True)
     if args.sample_filter is not None:
@@ -215,6 +219,8 @@ def main() -> None:
     label = f"{args.dataset}_{args.model}_{args.group}_{cohort}_seed{args.seed}"
     if args.init_seed is not None:
         label += f"_init{args.init_seed}"
+    if args.log_bound is not None:
+        label += f"_beta{args.log_bound:g}"
     print(
         f"COHORT dataset={args.dataset} model={args.model} rows={len(df)} "
         f"formulas={df.formula.nunique()} systems={df.chemical_system.nunique()} "

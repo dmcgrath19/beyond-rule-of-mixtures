@@ -1,0 +1,67 @@
+{
+  "requested_composition": "Mo40.0000 Ti40.0000 Ta20.0000",
+  "x_Mo_realized": 0.4074074074074074,
+  "x_Ti_realized": 0.4074074074074074,
+  "x_Ta_realized": 0.18518518518518517,
+  "x_Ti_requested": 0.4,
+  "x_Mo_requested": 0.4,
+  "x_Ta_requested": 0.2,
+  "n_atoms": 54,
+  "eos_points": [
+    {
+      "job_name": "Mo40p0000_Ti40p0000_Ta20p0000_v0",
+      "input_volume_A3": 856.6742769489573,
+      "final_volume_A3": 856.6742769489573,
+      "energy_eV": -532.92289537,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo40p0000_Ti40p0000_Ta20p0000_v1",
+      "input_volume_A3": 868.5725307954708,
+      "final_volume_A3": 868.5725307954708,
+      "energy_eV": -533.41659446,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo40p0000_Ti40p0000_Ta20p0000_v2",
+      "input_volume_A3": 880.4707846419836,
+      "final_volume_A3": 880.4707846419836,
+      "energy_eV": -533.7121695,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo40p0000_Ti40p0000_Ta20p0000_v3",
+      "input_volume_A3": 892.3690384884972,
+      "final_volume_A3": 892.3690384884972,
+      "energy_eV": -533.82084687,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo40p0000_Ti40p0000_Ta20p0000_v4",
+      "input_volume_A3": 904.2672923350101,
+      "final_volume_A3": 904.2672923350101,
+      "energy_eV": -533.75554313,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo40p0000_Ti40p0000_Ta20p0000_v5",
+      "input_volume_A3": 916.1655461815236,
+      "final_volume_A3": 916.1655461815236,
+      "energy_eV": -533.52714827,
+      "n_atoms": 54
+    },
+    {
+      "job_name": "Mo40p0000_Ti40p0000_Ta20p0000_v6",
+      "input_volume_A3": 928.0638000280371,
+      "final_volume_A3": 928.0638000280371,
+      "energy_eV": -533.14579103,
+      "n_atoms": 54
+    }
+  ],
+  "v0_total_A3": 893.7355797399769,
+  "volume_per_atom_A3": 16.550658884073645,
+  "bulk_modulus_GPa": 174.87804786007305,
+  "mlip_volume_per_atom_A3": 16.525352564601796,
+  "V_vegard_lit_A3": 17.014984379620547,
+  "delta_V_mlip_lit_A3": -0.4896318150187504
+}
