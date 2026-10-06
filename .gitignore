@@ -1,7 +1,4 @@
 __pycache__/
-rebuttal/
 *.pyc
 .venv/
-results/smoke/
-models/*.pt
-results/
+*.pt
