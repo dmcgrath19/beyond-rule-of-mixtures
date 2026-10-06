@@ -1,0 +1,94 @@
+borg_row_id,formula,reference_id,fold
+borg_rt_000,Hf1 Nb1 Ta1 Ti1 Zr1,79,0
+borg_rt_001,Hf1 Nb1 Ta1 Ti1 Zr1,80,4
+borg_rt_002,Hf1 Nb1 Ta1 Ti1 Zr1,80,4
+borg_rt_003,Al0.214 Nb0.714 Ta0.571 Ti1 V0.143 Zr0.929,39,0
+borg_rt_004,Al0.214 Nb0.714 Ta0.714 Ti1 Zr0.929,39,0
+borg_rt_005,Al0.4 Hf0.6 Nb1 Ta1 Ti1 Zr1,39,0
+borg_rt_006,Al0.333 Nb0.667 Ta0.533 Ti1 V0.133 Zr0.667,39,3
+borg_rt_007,Al0.667 Nb1 Ta0.333 Ti1 Zr0.333,39,3
+borg_rt_008,Nb0.5 Ti0.5 V1 Zr0.5,45,0
+borg_rt_009,Nb1 Ti1 V1 Zr1,45,0
+borg_rt_010,Hf1 Nb1 Ta1 Ti1 Zr1,79,1
+borg_rt_011,Al1 Co1 Fe1 Ni1 Ti1 V1 Zr1,15,0
+borg_rt_012,Al0.417 Co0.833 Cr0.833 Cu0.833 Fe0.833 Ni0.833 V1,25,1
+borg_rt_013,Al0.5 Hf1 Nb1 Ta1 Ti1 Zr1,40,4
+borg_rt_014,Al0.25 Mo1 Nb1 Ti1 V1,41,3
+borg_rt_015,Hf1 Mo0.5 Nb1 Ta1 Ti1 Zr1,48,0
+borg_rt_016,Hf0.333 Nb0.333 Ta0.333 Ti1 Zr0.667,52,2
+borg_rt_017,Hf0.25 Nb0.125 Ti1 V0.5 Zr0.5,239,4
+borg_rt_018,Hf0.25 Nb0.375 Ti1 V0.5 Zr0.5,239,3
+borg_rt_019,Hf0.25 Nb0.5 Ti1 V0.5 Zr0.5,239,1
+borg_rt_020,Al1 Co0.333 Cr0.333 Fe0.333 Ni0.333,4,4
+borg_rt_021,Al1 Co1 Cr1 Fe1 Nb0.1 Ni1,8,1
+borg_rt_022,Al0.278 Co0.556 Cr0.556 Cu0.556 Fe0.556 Ni0.556 V1,25,0
+borg_rt_023,Al0.25 Co0.5 Cr0.5 Cu0.5 Fe0.5 Ni0.5 V1,25,1
+borg_rt_024,Mo1 Nb1 Ta1 Ti0.25 W1,89,0
+borg_rt_025,Mo1 Nb1 Ta1 Ti0.5 W1,89,4
+borg_rt_026,Mo1 Nb1 Re0.5 W1,219,4
+borg_rt_027,Cr1 Fe1 Ni1 Ti0.4,107,2
+borg_rt_028,Cr1 Fe1 Ni1 Ti0.5,107,1
+borg_rt_029,Al1 Co1 Fe1 Ni1,27,3
+borg_rt_030,Al1 Co0.667 Cr0.667 Fe0.667 Ni0.667,4,4
+borg_rt_031,Al1 Co1 Cr1 Fe1 Ni1,4,1
+borg_rt_032,Al1 Co1 Cr1 Fe1 Ni1,8,2
+borg_rt_033,Al1 Co0.8 Cr0.8 Fe0.8 Mn0.8 Ni0.8,16,1
+borg_rt_034,Al0.312 Co0.625 Cr0.625 Cu0.625 Fe0.625 Ni0.625 V1,25,3
+borg_rt_035,Al0.75 Hf1 Nb1 Ta1 Ti1 Zr1,40,2
+borg_rt_036,Hf1 Nb1 Ta1 Ti1 Zr1,40,4
+borg_rt_037,Al0.5 Mo1 Nb1 Ti1 V1,41,2
+borg_rt_038,Al0.75 Mo1 Nb1 Ti1 V1,41,1
+borg_rt_039,Al1 Mo1 Nb1 Ti1 V1,41,4
+borg_rt_040,Mo1 Nb1 Ti1 V1,41,0
+borg_rt_041,Hf1 Mo0.25 Nb1 Ta1 Ti1 Zr1,48,3
+borg_rt_042,Hf1 Mo0.75 Nb1 Ta1 Ti1 Zr1,48,0
+borg_rt_043,Hf1 Nb1 Ta1 Ti1 Zr1,48,4
+borg_rt_044,Hf1 Mo1 Ta1 Ti1 Zr1,49,4
+borg_rt_045,Mo1 Nb1 Ta1 V1 W1,57,2
+borg_rt_046,Mo1 Nb1 Ta1 W1,57,4
+borg_rt_047,Hf1 Nb1 Ta1 Zr1,87,4
+borg_rt_048,Mo1 Nb1 Ta1 Ti1 W1,89,3
+borg_rt_049,Nb1 Ti1 Zr1,231,1
+borg_rt_050,Hf1 Nb1 Ti1 Zr1,231,3
+borg_rt_051,Hf0.25 Ti1 V0.5 Zr0.5,239,3
+borg_rt_052,Hf0.25 Nb0.25 Ti1 V0.5 Zr0.5,239,3
+borg_rt_053,Cr1 Fe1 Ni1 Ti0.6,107,2
+borg_rt_054,Hf1 Nb1 Ta1 Ti1 Zr1,119,2
+borg_rt_055,Nb1 Ta1 Ti1 Zr1,119,0
+borg_rt_056,Nb1 Ta1 Ti1,119,1
+borg_rt_057,Nb1 Ti1 Zr1,119,2
+borg_rt_058,Al1 Mo1 Nb1 Ti1,265,2
+borg_rt_059,Al1 Nb1 Ta1 Ti1,265,2
+borg_rt_060,Cr1 Mo1 Ta1 Ti1,265,4
+borg_rt_061,Cr1 Nb1 Ta1 Ti1,265,2
+borg_rt_062,Cr1 Nb1 Ti1 W1,265,1
+borg_rt_063,Hf1 Nb1 Ta1 Ti1,265,2
+borg_rt_064,Mo1 Nb1 Ta1 Ti1 W1,265,1
+borg_rt_065,Mo1 Nb1 Ta1 Ti1,265,0
+borg_rt_066,Al1 Co0.5 Cr0.5 Fe0.5 Ni0.5,4,4
+borg_rt_067,Al1 Fe1 Ni1 Ti1 V1 Zr1,15,0
+borg_rt_068,Al0.333 Cr0.667 Fe1 Mn0.667 Ni0.333,18,3
+borg_rt_069,Al0.3 Hf1 Nb1 Ta1 Ti1 Zr1,40,0
+borg_rt_070,Hf1 Mo1 Nb1 Ta1 Ti1 Zr1,48,0
+borg_rt_071,Hf1 Mo1 Nb1 Ta1 Ti1 Zr1,49,2
+borg_rt_072,Mo1 Nb1 Ta1 Ti0.75 W1,89,1
+borg_rt_073,Al1 Co0.4 Cr0.4 Fe0.4 Ni0.4,4,4
+borg_rt_074,Al0.357 Co0.714 Cr0.714 Cu0.714 Fe0.714 Ni0.714 V1,25,2
+borg_rt_075,Al0.875 Co1 Cr1 Fe1 Ni1,54,3
+borg_rt_076,Al1 Co0.8 Cr0.8 Fe0.8 Ni0.8,54,1
+borg_rt_077,Al1 Co0.8 Cr0.8 Fe0.8 Ni0.8,54,1
+borg_rt_078,Al1 Co0.667 Cr0.667 Fe0.667 Ni0.667,54,3
+borg_rt_079,Al1 Co0.667 Cr0.667 Fe0.667 Ni0.667,54,3
+borg_rt_080,Al1 Co1 Cr1 Fe1 Ni1,54,2
+borg_rt_081,Al1 Nb1 Ti1 V1,43,2
+borg_rt_082,Mo1 Nb1 Ta1 V1,56,0
+borg_rt_083,Cr1 Mo1 Ta1 Ti1,265,2
+borg_rt_084,Hf1 Nb1 Ta1 Ti1,265,0
+borg_rt_085,Mo1 Nb1 Ta1 Ti1 W1,265,4
+borg_rt_086,Mo1 Nb1 Ta1 Ti1,265,3
+borg_rt_087,Al1 Co0.5 Cr0.5 Fe0.5 Ni0.5,54,1
+borg_rt_088,Al1 Co0.5 Cr0.5 Fe0.5 Ni0.5,54,2
+borg_rt_089,Al1 Co0.357 Cr0.357 Cu0.357 Fe0.357,20,1
+borg_rt_090,Al1 Co0.333 Cr0.333 Cu0.333 Fe0.333,20,1
+borg_rt_091,Al1 Co1 Cr1 Fe1 Ni1,255,3
+borg_rt_092,Al1 Co0.5 Cr0.5 Fe0.5 Ni0.5,255,3
