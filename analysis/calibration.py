@@ -15,6 +15,9 @@ def crps_gaussian(y, mu, sd):
         sd * (z * (2 * stats.norm.cdf(z) - 1) + 2 * stats.norm.pdf(z) - 1 / np.sqrt(np.pi))
     ))
 
+def coverage(y, mu, sd, level):
+    return float(np.mean(np.abs(np.asarray(y)-np.asarray(mu)) <= stats.norm.ppf((1+level)/2)*np.asarray(sd)))
+
 def score_block(y, mu, sd):
     return dict(
         mae=float(np.abs(mu - y).mean()),

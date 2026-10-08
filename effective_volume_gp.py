@@ -1,4 +1,9 @@
-"""Physics-informed GP for MPEA hardness with a learnable effective-volume misfit.
+"""Exploratory GP implementation.
+
+For the current paper RBF configuration use hardness_predictor.py, run.py,
+or utils.paper_training (width 4, beta 0.05, 200 + 800 steps).
+
+Physics-informed GP for MPEA hardness with a learnable effective-volume misfit.
 
 The model is a Gaussian process whose prior mean is the Maresca--Curtin
 solid-solution-strengthening prediction converted to Vickers hardness, with an

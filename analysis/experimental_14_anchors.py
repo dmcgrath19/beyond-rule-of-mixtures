@@ -1,9 +1,5 @@
-"""Public analysis of cached MLIP volumes and published validation compositions."""
+"""Learned and linear misfit volumes at the 14 validation alloys against MLIP partial molar misfits, for tabulated and MLIP volume anchors."""
 from __future__ import annotations
-
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import argparse
 import sys
@@ -20,7 +16,7 @@ sys.path.insert(0, str(HERE.parent))
 
 import predict_misfit  # noqa: E402
 from borg_experiments import BETA, Data  # noqa: E402
-from effective_volume_gp import DEV, DT, fit_fold, reconstruct_misfit  # noqa: E402
+from utils.paper_training import fit_fold  # noqa: E402
 from pool_diagnostic import ALLOYS_14, to_basis  # noqa: E402
 from volume_surface import BASIS  # noqa: E402
 
@@ -29,21 +25,17 @@ warnings.filterwarnings("ignore")
 
 def head_dv(fit, comp_borg: np.ndarray) -> np.ndarray:
     """dV_i^eff at the given compositions, on the Borg element basis."""
-    mean = fit["model"].mean_module
-    c = torch.tensor(comp_borg, dtype=DT, device=DEV)
+    head = fit["model"].mean_module.sigma_model
+    c = torch.tensor(comp_borg, dtype=torch.float64)
     with torch.no_grad():
-        v_eff = mean.v_base * torch.exp(mean.head(c))
-        _, dv, _ = reconstruct_misfit(c, v_eff)
-    return dv.cpu().numpy()
+        return head.diagnostics(torch.ones(len(c), dtype=torch.float64), c).delta_volumes.numpy()
 
 
 def head_sigma(fit, comp_borg: np.ndarray) -> np.ndarray:
-    mean = fit["model"].mean_module
-    c = torch.tensor(comp_borg, dtype=DT, device=DEV)
+    head = fit["model"].mean_module.sigma_model
+    c = torch.tensor(comp_borg, dtype=torch.float64)
     with torch.no_grad():
-        v_eff = mean.v_base * torch.exp(mean.head(c))
-        sigma, _, _ = reconstruct_misfit(c, v_eff)
-    return sigma.cpu().numpy()
+        return head.diagnostics(torch.ones(len(c), dtype=torch.float64), c).sigma.numpy()
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -69,16 +61,22 @@ def main(argv: list[str] | None = None) -> int:
     for lab, c in zip(labels, c_quin):
         for r in predict_misfit.evaluate(surf, fits, model, c):
             ref_rows.append(dict(alloy=lab, element=r["element"], x=r["x"],
-                                 dV_paper=r["dV_paper"], dV_rom=r["dV_rom"],
+                                 dV_rom=r["dV_rom"],
                                  dV_pmv=r["dV_pmv"], dV_pmv_unc=r["dV_pmv_unc"],
-                                 sigma_paper=r["sigma_paper"], sigma_rom=r["sigma_rom"],
+                                 sigma_rom=r["sigma_rom"],
                                  sigma_pmv=r["sigma_pmv"], supported=r["supported"]))
     ref = pd.DataFrame(ref_rows)
+    current_volumes = d.v_base(anchor="current").numpy()
+    current_mean = c_borg @ current_volumes
+    current_delta = current_volumes[None, :] - current_mean[:, None]
+    current_sigma = (c_borg * current_delta**2).sum(axis=1)
+    ref["dV_current"] = [current_delta[labels.index(r.alloy), d.basis.index(r.element)] for r in ref.itertuples()]
+    ref["sigma_current"] = [current_sigma[labels.index(r.alloy)] for r in ref.itertuples()]
 
     # --- train the head on all of Borg under each anchor choice ---
     learned: dict[str, np.ndarray] = {}
     sigmas: dict[str, np.ndarray] = {}
-    for anchor in ("table5", "mlip"):
+    for anchor in ("current", "mlip"):
         dvs, sgs = [], []
         for s in range(a.seeds):
             fit = fit_fold(
@@ -90,7 +88,7 @@ def main(argv: list[str] | None = None) -> int:
         learned[anchor] = np.mean(dvs, axis=0)
         sigmas[anchor] = np.mean(sgs, axis=0)
 
-    for anchor in ("table5", "mlip"):
+    for anchor in ("current", "mlip"):
         col = f"dV_eff_{anchor}"
         ref[col] = [
             learned[anchor][labels.index(r.alloy), d.basis.index(r.element)]
@@ -106,9 +104,9 @@ def main(argv: list[str] | None = None) -> int:
           f"{a.seeds} seeds averaged")
 
     est = {
-        "dV_paper (linear, Table 5)": "dV_paper",
+        "dV_current (linear, Ti 3.26 A)": "dV_current",
+        "dV_eff (learned, Ti 3.26 A)": "dV_eff_current",
         "dV_rom (linear, MLIP)": "dV_rom",
-        "dV_eff (learned, Table 5)": "dV_eff_table5",
         "dV_eff (learned, MLIP)": "dV_eff_mlip",
     }
 
@@ -137,14 +135,14 @@ def main(argv: list[str] | None = None) -> int:
 
     # --- the misfit parameter itself, which is what reaches the hardness ---
     sig = ref.groupby("alloy").first()
-    sig["sigma_eff_table5"] = [sigmas["table5"][labels.index(i)] for i in sig.index]
+    sig["sigma_eff_current"] = [sigmas["current"][labels.index(i)] for i in sig.index]
     sig["sigma_eff_mlip"] = [sigmas["mlip"][labels.index(i)] for i in sig.index]
     print("\nreduced misfit parameter Sigma (A^6), ratio to the partial molar value")
     rat = pd.DataFrame({
         "Sigma_pmv": sig.sigma_pmv,
-        "paper/pmv": sig.sigma_paper / sig.sigma_pmv,
+        "current/pmv": sig.sigma_current / sig.sigma_pmv,
+        "eff_current/pmv": sig.sigma_eff_current / sig.sigma_pmv,
         "rom/pmv": sig.sigma_rom / sig.sigma_pmv,
-        "eff_table5/pmv": sig.sigma_eff_table5 / sig.sigma_pmv,
         "eff_mlip/pmv": sig.sigma_eff_mlip / sig.sigma_pmv,
     })
     print(rat.to_string(float_format=lambda v: f"{v:.3f}"))

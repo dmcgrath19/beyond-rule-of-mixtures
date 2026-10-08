@@ -1,7 +1,7 @@
 """Run leakage-resistant validation protocols from retained result cohorts.
 
 This utility deliberately consumes the retained CSV cohorts so a validation
-rerun does not depend on live MongoDB access.  It never uses their old fold or
+rerun does not depend on live MongoDB access.  It never uses their stored fold or
 prediction columns; folds and predictions are rebuilt from scratch.
 """
 
@@ -116,6 +116,7 @@ def main() -> None:
     parser.add_argument("--group", choices=["random", "formula", "reference", "system"], required=True)
     parser.add_argument("--keep-repeated-samples", action="store_true")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--kernel", choices=["rbf", "matern52"], default="rbf")
     parser.add_argument(
         "--sample-filter",
         type=Path,
@@ -138,7 +139,7 @@ def main() -> None:
     if args.smoke:
         engine.STAGE1_ITERS = 2
         engine.STAGE2_ITERS = 2
-    # Historical runs did not record initialisation RNG state. New runs use a fixed seed.
+    # Runs use a fixed initialisation seed.
     torch.manual_seed(args.init_seed if args.init_seed is not None else args.seed)
     np.random.seed(args.seed)
     if args.init_seed is not None:
@@ -151,7 +152,7 @@ def main() -> None:
         df = bulk_microstructure(df)
     if args.exclude_imputed_temperature:
         df = df[df["Test temperature"].notna()].reset_index(drop=True)
-    config = model_config(args.model)
+    config = replace(model_config(args.model), kernel=args.kernel)
     if args.log_bound is not None:
         config = replace(config, sigma_log_bound=args.log_bound)
     required = _feature_cols_for(config) + PHYS_COLS + COMPOSITION_COLS + ["HV", "HV_prior"]
@@ -162,7 +163,7 @@ def main() -> None:
     df["chemical_system"] = chemical_system(df)
 
     if args.group == "random":
-        # Shuffled-row protocol of the original submission, kept as a reference point.
+        # Shuffled-row protocol, kept as a reference point.
         df["row_id"] = np.arange(len(df)).astype(str)
     group_col = {
         "random": "row_id",
@@ -208,6 +209,8 @@ def main() -> None:
     if args.exclude_imputed_temperature:
         cohort += "_measuredtemp"
     label = f"{args.dataset}_{args.model}_{args.group}_{cohort}_seed{args.seed}"
+    if args.kernel != "rbf":
+        label += f"_{args.kernel}"
     if args.init_seed is not None:
         label += f"_init{args.init_seed}"
     if args.log_bound is not None:

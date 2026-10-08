@@ -51,56 +51,116 @@
     "single_split_controls": {
       "tables": "single-split controls",
       "settings": {
-        "kernel": "Matern-5/2 ARD",
-        "hidden_width": 32,
-        "beta": 0.02,
-        "stage1_steps": 150,
+        "kernel": "RBF ARD",
+        "hidden_width": 4,
+        "beta": 0.05,
+        "stage1_steps": 200,
         "stage1_lr": 0.05,
-        "stage2_steps": 500,
-        "stage2_lr": 0.01
+        "stage2_steps": 800,
+        "stage2_lr": 0.005,
+        "head_lr": 0.001,
+        "head_weight_decay": 0.01,
+        "head_frozen_stage2_steps": 600,
+        "analytic_and_composition_arms": {
+          "stage1_steps": 200,
+          "stage1_lr": 0.05,
+          "stage2_steps": 800,
+          "stage2_lr": 0.01
+        }
       }
     },
     "calibration_and_conformal": {
       "tables": "calibration table, reliability figure, 20-split conformal table and verification figure",
       "settings": {
-        "kernel": "Matern-5/2 ARD",
-        "hidden_width": 32,
-        "beta": 0.02,
-        "stage1_steps": 150,
+        "kernel": "RBF ARD",
+        "hidden_width": 4,
+        "beta": 0.05,
+        "stage1_steps": 200,
         "stage1_lr": 0.05,
-        "stage2_steps": 500,
-        "stage2_lr": 0.01
+        "stage2_steps": 800,
+        "stage2_lr": 0.005,
+        "head_lr": 0.001,
+        "head_weight_decay": 0.01,
+        "head_frozen_stage2_steps": 600,
+        "analytic_and_composition_arms": {
+          "stage1_steps": 200,
+          "stage1_lr": 0.05,
+          "stage2_steps": 800,
+          "stage2_lr": 0.01
+        }
       }
     },
     "learning_curves": {
       "tables": "learning curves (150 repeats)",
       "settings": {
-        "kernel": "Matern-5/2 ARD",
-        "hidden_width": 32,
-        "beta": 0.02,
-        "stage1_steps": 150,
+        "kernel": "RBF ARD",
+        "hidden_width": 4,
+        "beta": 0.05,
+        "stage1_steps": 200,
         "stage1_lr": 0.05,
-        "stage2_steps": 500,
-        "stage2_lr": 0.01
+        "stage2_steps": 800,
+        "stage2_lr": 0.005,
+        "head_lr": 0.001,
+        "head_weight_decay": 0.01,
+        "head_frozen_stage2_steps": 600,
+        "analytic_and_composition_arms": {
+          "stage1_steps": 200,
+          "stage1_lr": 0.05,
+          "stage2_steps": 800,
+          "stage2_lr": 0.01
+        }
       }
     },
     "beta_sweep": {
       "tables": "beta sweep under formula-grouped CV; selection by out-of-fold MAE",
-      "settings": "each analysis swept at its own width/schedule; selected beta listed above"
+      "settings": "Retained RBF width-4 schedule sweep; beta=0.05 fixed for all reruns."
     },
     "prefactors_and_volume_anchors": {
       "tables": "learned prefactors, volume-anchor comparison",
       "settings": {
-        "kernel": "Matern-5/2 ARD",
-        "hidden_width": 32,
-        "beta": 0.02,
-        "stage1_steps": 150,
+        "kernel": "RBF ARD",
+        "hidden_width": 4,
+        "beta": 0.05,
+        "stage1_steps": 200,
         "stage1_lr": 0.05,
-        "stage2_steps": 500,
-        "stage2_lr": 0.01
+        "stage2_steps": 800,
+        "stage2_lr": 0.005,
+        "head_lr": 0.001,
+        "head_weight_decay": 0.01,
+        "head_frozen_stage2_steps": 600,
+        "analytic_and_composition_arms": {
+          "stage1_steps": 200,
+          "stage1_lr": 0.05,
+          "stage2_steps": 800,
+          "stage2_lr": 0.01
+        }
       }
     }
   },
   "beta_selection": "out-of-fold MAE of the effective-volume arm under formula-grouped five-fold cross-validation on the 93 room-temperature Borg rows",
-  "historical_rng": "Initialisation RNG state was not saved. Archived predictions reproduce tables; new refits use explicit seeds and are not bitwise replicas."
+  "rng": "Refits use explicit seeds.",
+  "hadex_revision": {
+    "analysis_rows": 653,
+    "chemical_systems": 119,
+    "screening": {
+      "minimum_retained_indents": 3,
+      "maximum_relative_population_sd_percent_exclusive": 25
+    },
+    "kernels": [
+      "rbf",
+      "matern52"
+    ],
+    "shared_fold_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "primary_kernel": "rbf",
+    "cohort": "results/hadex_measurement_screen/expansion_rsd25/revised_hadex_analysis_rows.csv",
+    "results": "results/screened_hadex_kernel_rerun",
+    "grouping": "Parent specimen family; one consistently selected passing record per family",
+    "calibration": "Empirical other-fold cross-fitted recalibration; no exact split-conformal guarantee"
+  }
 }

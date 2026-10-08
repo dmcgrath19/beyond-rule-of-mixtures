@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 .venv/
 *.pt
+/data/hadex/
+/results/
+hadex_datapoint_measurements*.csv

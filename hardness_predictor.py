@@ -1,7 +1,7 @@
 """Train on public Borg and predict hardness from user-supplied compositions.
 
 Both training and prediction recompute descriptors through the same function.
-The reported grouped-result engine is separate (run.py).
+Predictions use the same training engine and defaults as grouped analyses.
 """
 from __future__ import annotations
 import argparse
@@ -10,8 +10,8 @@ import pandas as pd
 import torch
 from pymatgen.core.composition import Composition
 from composition_features import composition_to_features
-from effective_volume_gp import (BORG_XLSX, BORG_NUM_COLS, PROC_MAP, DT, build_borg,
-                                curtin_intermediates, fit_fold, predict)
+from effective_volume_gp import (BORG_XLSX, BORG_NUM_COLS, PROC_MAP, DT,
+                                curtin_intermediates)
 from curtin_ys_prior import LATTICE_CONSTANTS_BCC_EXP
 _KERNEL_KEYS = ["R_Var", "R_pm", "B_GPa", "G_GPa", "Poisson_Delt", "VEC", "Tm_K", "R_Delt"]
 def _comp_kernel_feats(formula):
@@ -43,12 +43,15 @@ def main():
     p.add_argument("--temperature", type=float, default=298.15, help="kelvin")
     p.add_argument("--processing", choices=list(PROC_MAP), default="CAST")
     p.add_argument("--seed", type=int, default=0)
-    p.add_argument("--n1", type=int, default=150);p.add_argument("--n2", type=int, default=500)
+    p.add_argument("--kernel", choices=["rbf","matern52"], default="rbf")
+    p.add_argument("--n1", type=int, default=200);p.add_argument("--n2", type=int, default=800)
     p.add_argument("--output", default="results/user_predictions.csv")
     args=p.parse_args();torch.set_num_threads(1)
-    *_, basis=build_borg(); X,P,C,Y,_=build_borg_recomputed(basis)
+    from lib.physics import SUPPORTED_ELEMENTS
+    from utils.paper_training import fit_fold, predict
+    basis=list(SUPPORTED_ELEMENTS); X,P,C,Y,_=build_borg_recomputed(basis)
     vb=torch.tensor([LATTICE_CONSTANTS_BCC_EXP[el]**3/2 for el in basis], dtype=DT)
-    fit=fit_fold(X,P,C,Y,vb,variant=args.variant,seed=args.seed,n1=args.n1,n2=args.n2)
+    fit=fit_fold(X,P,C,Y,vb,variant=args.variant,kernel=args.kernel,seed=args.seed,n1=args.n1,n2=args.n2)
     xx,pp,cc=[],[],[]
     for formula in args.composition:
         comp=Composition(formula)

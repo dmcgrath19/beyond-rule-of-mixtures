@@ -1,4 +1,4 @@
-"""Public analysis of cached MLIP volumes and published validation compositions."""
+"""Redlich-Kister fits of the cached MLIP volume surfaces and the partial molar volumes they imply."""
 from __future__ import annotations
 
 import sys

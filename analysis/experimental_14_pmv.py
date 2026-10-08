@@ -1,9 +1,5 @@
-"""Public analysis of cached MLIP volumes and published validation compositions."""
+"""Misfit parameters and Curtin strengths of the 14 validation alloys from MLIP partial molar volumes."""
 from __future__ import annotations
-
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import sys
 from pathlib import Path
@@ -215,6 +211,7 @@ def main():
     print(pd.DataFrame(rows_b).to_string(index=False, float_format=lambda x: f"{x:9.3f}"))
 
     out = Path(__file__).resolve().parents[1] / "results/experimental_14_pmv.csv"
+    out.parent.mkdir(exist_ok=True)
     df.to_csv(out, index=False)
     print(f"\nsaved -> {out}")
 

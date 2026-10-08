@@ -5,14 +5,14 @@ composition it returns the element-resolved misfit volume under three
 treatments, so the GP's learned correction can be set against both the baseline
 it was initialised from and the physically consistent target:
 
-    dV_i^paper = V_i^Table5 - sum_j c_j V_j^Table5   the prior's own baseline
+    dV_i^prior = V_i^tab - sum_j c_j V_j^tab         the prior's own baseline
     dV_i^ROM   = V_i^MLIP   - sum_j c_j V_j^MLIP     linear mixing, MLIP anchors
     dV_i^PMV   = v_i - Vbar                          partial molar, MLIP surface
 
-Separating the last two matters. dV^paper differs from dV^ROM only through the
+Separating the last two matters. dV^prior differs from dV^ROM only through the
 elemental constants (the beta-Ti entry above all), while dV^ROM differs from
 dV^PMV only through the non-linearity of the volume surface. Comparing the GP
-against dV^paper alone would confound the two.
+against dV^prior alone would confound the two.
 
 Usage
 -----
@@ -33,11 +33,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import argparse
 import itertools
-import sys
 
 import numpy as np
 import pandas as pd
 
+from curtin_ys_prior import LATTICE_CONSTANTS_BCC_EXP
 from volume_surface import (
     BASIS,
     PooledSurface,
@@ -50,9 +50,8 @@ from volume_surface import (
 ORDERS = (2, 3, 4)
 BEST_ORDER = 4
 
-# Table 5 of the manuscript, a_i in Angstrom -> V_i = a_i^3 / 2.
-PAPER_LATTICE = dict(Mo=3.147, Nb=3.300, Ta=3.301, Ti=3.320, W=3.165)
-PAPER_VOLUME = np.array([PAPER_LATTICE[el] ** 3 / 2 for el in BASIS])
+# Tabulated lattice constants of the prior, a_i in Angstrom -> V_i = a_i^3 / 2.
+PRIOR_VOLUME = np.array([LATTICE_CONSTANTS_BCC_EXP[el] ** 3 / 2 for el in BASIS])
 
 
 def build(order: int = BEST_ORDER):
@@ -76,8 +75,8 @@ def evaluate(surf, fits, model, c: np.ndarray, order: int = BEST_ORDER) -> list[
 
     vbar_rom = float(surf.vegard(c2)[0])
     dv_rom = surf.pure - vbar_rom
-    vbar_paper = float(c @ PAPER_VOLUME)
-    dv_paper = PAPER_VOLUME - vbar_paper
+    vbar_prior = float(c @ PRIOR_VOLUME)
+    dv_prior = PRIOR_VOLUME - vbar_prior
 
     sup = model.support(c)
     label = "".join(f"{el}{100 * x:.4g}" for el, x in zip(BASIS, c) if x > 1e-6)
@@ -90,16 +89,16 @@ def evaluate(surf, fits, model, c: np.ndarray, order: int = BEST_ORDER) -> list[
             composition=label,
             element=el,
             x=c[i],
-            Vbar_paper=vbar_paper,
+            Vbar_prior=vbar_prior,
             Vbar_rom=vbar_rom,
             Vbar_pmv=Vbar_pmv,
             bowing_pct=100 * (Vbar_pmv - vbar_rom) / vbar_rom,
             v_i_pmv=Vbar_pmv + dv_pmv[i],
-            dV_paper=dv_paper[i],
+            dV_prior=dv_prior[i],
             dV_rom=dv_rom[i],
             dV_pmv=dv_pmv[i],
             dV_pmv_unc=unc[i],
-            sigma_paper=float((c * dv_paper**2).sum()),
+            sigma_prior=float((c * dv_prior**2).sum()),
             sigma_rom=float((c * dv_rom**2).sum()),
             sigma_pmv=float(sigma(c2, vi, V)[0]),
             supported=sup.ok,
@@ -185,8 +184,8 @@ def main(argv: list[str] | None = None) -> int:
     out = pd.DataFrame(rows)
 
     if a.wide:
-        idx = ["composition", "Vbar_paper", "Vbar_rom", "Vbar_pmv", "bowing_pct",
-               "sigma_paper", "sigma_rom", "sigma_pmv", "supported"]
+        idx = ["composition", "Vbar_prior", "Vbar_rom", "Vbar_pmv", "bowing_pct",
+               "sigma_prior", "sigma_rom", "sigma_pmv", "supported"]
         wide = out.pivot_table(index=idx, columns="element",
                                values=["dV_rom", "dV_pmv", "dV_pmv_unc"]).reset_index()
         wide.columns = [c if isinstance(c, str) else f"{c[0]}_{c[1]}" for c in wide.columns]
@@ -199,7 +198,7 @@ def main(argv: list[str] | None = None) -> int:
               + (f", {n_unsup} rows EXTRAPOLATING" if n_unsup else ""))
     else:
         pd.set_option("display.width", 220)
-        cols = [c for c in ["composition", "element", "x", "dV_paper", "dV_rom",
+        cols = [c for c in ["composition", "element", "x", "dV_prior", "dV_rom",
                             "dV_pmv", "dV_pmv_unc", "bowing_pct", "sigma_rom",
                             "sigma_pmv", "supported"] if c in out.columns]
         print(out[cols].to_string(index=False, float_format=lambda x: f"{x:.4f}"))

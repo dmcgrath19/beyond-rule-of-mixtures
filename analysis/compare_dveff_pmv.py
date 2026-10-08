@@ -1,9 +1,5 @@
-"""Public analysis of cached MLIP volumes and published validation compositions."""
+"""Compare learned effective-volume misfits of Borg alloys in the Mo-Nb-Ta-Ti-W space with MLIP partial molar volumes."""
 from __future__ import annotations
-
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import argparse
 import sys

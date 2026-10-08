@@ -17,7 +17,8 @@ sys.path.insert(0, str(HERE.parent))
 
 from borg_experiments import Data  # noqa: E402
 from calibration import ARMS, crps_gaussian  # noqa: E402
-from effective_volume_gp import curtin_analytic_hv, fit_fold, predict  # noqa: E402
+from effective_volume_gp import curtin_analytic_hv  # noqa: E402
+from utils.paper_training import fit_fold, predict  # noqa: E402
 from reframe_check import build_borg_recomputed  # noqa: E402
 
 warnings.filterwarnings("ignore")
@@ -57,7 +58,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repeats", type=int, default=150)
     ap.add_argument("--sizes", type=int, nargs="+",
-                    default=[25, 35, 50, 70])
+                    default=[25, 35, 50, 74])
     ap.add_argument("--test-frac", type=float, default=0.25)
     ap.add_argument("--pool-sizes", type=int, nargs="*", default=[25, 35, 50],
                     help="sizes forming the pre-specified mid-range hypothesis")
@@ -66,8 +67,8 @@ def main(argv=None) -> int:
     ap.add_argument("--diff-out", default="results/learning_curve/learning_curve_diffs.csv")
     ap.add_argument("--split-out", default="results/learning_curve/splits.json")
     ap.add_argument("--split-in", help="reuse a saved split/subset manifest")
-    ap.add_argument("--n1", type=int, default=150)
-    ap.add_argument("--n2", type=int, default=500)
+    ap.add_argument("--n1", type=int, default=200)
+    ap.add_argument("--n2", type=int, default=800)
     a = ap.parse_args(argv)
     import json
     for path in [a.plot_out, a.csv_out, a.diff_out, a.split_out]:

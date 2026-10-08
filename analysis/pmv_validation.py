@@ -1,9 +1,5 @@
-"""Public analysis of cached MLIP volumes and published validation compositions."""
+"""Checks of the partial molar volume pipeline: surface fit, autograd derivatives and dilute limits."""
 from __future__ import annotations
-
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import sys
 from pathlib import Path
@@ -113,7 +109,7 @@ def sweep(model, elements, step=0.02):
     ratio_l = sig_pmv[interior] / sig_rom_l[interior]
 
     print(f"\n4) full-simplex sweep, {interior.sum()} interior compositions")
-    for tag, r in (("vs MLIP-anchored ROM", ratio_m), ("vs paper-table ROM", ratio_l)):
+    for tag, r in (("vs MLIP-anchored ROM", ratio_m), ("vs tabulated ROM", ratio_l)):
         print(
             f"   Sigma_pmv / Sigma_ROM {tag:<22} "
             f"median {np.median(r):5.2f}   "
@@ -131,7 +127,8 @@ def sweep(model, elements, step=0.02):
             "sigma_rom_papertable_A6": sig_rom_l,
         }
     )
-    path = Path(__file__).resolve().parent / "nb_ti_w_partial_molar_volumes.csv"
+    path = Path(__file__).resolve().parents[1] / "results/nb_ti_w_partial_molar_volumes.csv"
+    path.parent.mkdir(exist_ok=True)
     out.to_csv(path, index=False)
     print(f"   saved -> {path}")
 

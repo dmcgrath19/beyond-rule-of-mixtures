@@ -1,9 +1,5 @@
-"""Public analysis of cached MLIP volumes and published validation compositions."""
+"""Misfit parameter of Nb-Ti-W alloys from MLIP partial molar volumes, compared with linear-mixing conventions."""
 from __future__ import annotations
-
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import sys
 from pathlib import Path
@@ -203,7 +199,8 @@ def main():
     for r in rows:
         print(f"   {r['composition']:<12} {r['pmv']}")
 
-    out = Path(__file__).resolve().parent / "misfit_from_pmv_table7.csv"
+    out = Path(__file__).resolve().parents[1] / "results/misfit_from_pmv_table7.csv"
+    out.parent.mkdir(exist_ok=True)
     df.to_csv(out, index=False)
     print(f"\nsaved -> {out}")
 

@@ -3,17 +3,18 @@ import numpy as np
 import torch
 from pymatgen.core.composition import Composition
 from curtin_ys_prior import LATTICE_CONSTANTS_BCC_EXP as LATT
-from effective_volume_gp import DT, build_borg, cross_val, metrics
+from effective_volume_gp import DT, metrics
+from utils.paper_training import Data as PaperData, cross_val
+from sklearn.model_selection import KFold, GroupKFold
 import pandas as pd
 QUINARY = ("Mo", "Nb", "Ta", "Ti", "W")
 MLIP_VOLUME = dict(Mo=15.859, Nb=18.128, Ta=18.556, Ti=17.305, W=16.144)
-BETA = 0.02
-class Data:
+BETA = 0.05
+class Data(PaperData):
     """Borg design matrices plus the masks the Ti analysis needs."""
 
     def __init__(self):
-        (self.Xk, self.phys, self.comp, self.y,
-         self.formulas, self.basis) = build_borg()
+        super().__init__()
         self.ti = self.basis.index("Ti")
         inq = np.array([
             {e.name for e in Composition(f).elements} <= set(QUINARY)
@@ -22,10 +23,8 @@ class Data:
         self.ti_overlap = (self.comp[:, self.ti] > 1e-6) & inq
         self.groups = pd.factorize(np.asarray(self.formulas))[0]
 
-    def v_base(self, anchor="table5", a_ti=None):
+    def v_base(self, anchor="current", a_ti=None):
         v = [LATT[e] ** 3 / 2 for e in self.basis]
-        if anchor == "table5":
-            v[self.ti] = 3.320 ** 3 / 2
         if anchor == "mlip":
             for i, e in enumerate(self.basis):
                 if e in MLIP_VOLUME:
@@ -36,11 +35,16 @@ class Data:
 
     def run(self, v_base, *, seeds=3, collect=False, **kw):
         """Mean MAE/RMSE over seeds, plus Ti diagnostics in the overlap set."""
+        protocol = kw.pop("protocol", "shuffled")
+        n_splits = kw.pop("n_splits", 5)
+        if protocol not in ("shuffled", "grouped"):
+            raise ValueError(protocol)
+        splits = list(KFold(n_splits, shuffle=True, random_state=42).split(self.y)) if protocol == "shuffled" else list(GroupKFold(n_splits).split(self.Xk, self.y, self.groups))
         maes, rmses, pos, meds = [], [], [], []
         for s in range(seeds):
             oof, _, vols = cross_val(
                 self.Xk, self.phys, self.comp, self.y, self.formulas,
-                v_base, self.basis, protocol="shuffled", seed=s,
+                v_base, self.basis, splits=splits, seed=s,
                 collect_volumes=collect, **kw,
             )
             m, r = metrics(oof, self.y)

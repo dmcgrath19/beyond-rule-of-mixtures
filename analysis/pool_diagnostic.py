@@ -1,4 +1,4 @@
-"""Public analysis of cached MLIP volumes and published validation compositions."""
+"""Consistency of pure-element volumes and overlaps across the cached MLIP surfaces before pooling."""
 from __future__ import annotations
 
 import sys

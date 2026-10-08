@@ -22,6 +22,7 @@ class ModelConfig:
     mechanism_mode: str = "minimum"
     mechanism_delta_threshold: float = 0.035
     mechanism_probability_mode: str = "fixed_sigmoid"
+    kernel: str = "rbf"
 
 
 def _effective_volume_config(name: str, **overrides: object) -> ModelConfig:

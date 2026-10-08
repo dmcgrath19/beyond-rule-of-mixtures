@@ -230,6 +230,9 @@ def _train_gp_fold(
     y_tr: np.ndarray,
     fold_label: str,
     config: ModelConfig,
+    *,
+    capture_fit=None,
+    volume_anchors: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, FoldSigmaDiagnostics]:
     """Train GP on one fold, return predictions, uncertainties, prior, and sigma diagnostics."""
     import time
@@ -279,8 +282,18 @@ def _train_gp_fold(
         mechanism_delta_threshold=config.mechanism_delta_threshold,
         mechanism_probability_mode=config.mechanism_probability_mode,
         mean_type=config.mean_type,
+        kernel=config.kernel,
     ).double().to(device)
     likelihood = likelihood.double().to(device)
+
+    if volume_anchors is not None:
+        sigma_model = model.mean_module.sigma_model
+        if not hasattr(sigma_model, "base_volumes"):
+            raise ValueError("Volume anchors require a volume correction model")
+        anchors = torch.as_tensor(volume_anchors, dtype=torch.float64, device=device)
+        if anchors.shape != sigma_model.base_volumes.shape or not torch.isfinite(anchors).all() or not torch.all(anchors > 0):
+            raise ValueError("Volume anchors must be finite, positive and match the element basis")
+        sigma_model.base_volumes.copy_(anchors)
 
     mll = _gpytorch.mlls.ExactMarginalLogLikelihood(likelihood, model)
     t0 = time.perf_counter()
@@ -355,6 +368,8 @@ def _train_gp_fold(
 
     model.eval()
     likelihood.eval()
+    if capture_fit is not None:
+        capture_fit(model, likelihood, sx, y_mean_val, y_std_val)
     with torch.no_grad():
         post = model(test_x)
         pred = post.mean.cpu().numpy() * y_std_val + y_mean_val

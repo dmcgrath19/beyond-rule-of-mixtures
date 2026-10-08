@@ -284,6 +284,7 @@ class HardnessGP(gpytorch.models.ExactGP):
         mechanism_delta_threshold: float = 0.035,
         mechanism_probability_mode: str = "fixed_sigmoid",
         mean_type: str = "physics",
+        kernel: str = "rbf",
     ):
         super().__init__(train_x, train_y, likelihood)
         if mean_type not in ("physics", "constant"):
@@ -304,12 +305,14 @@ class HardnessGP(gpytorch.models.ExactGP):
         )
         self.register_buffer("y_mean", y_mean)
         self.register_buffer("y_std", y_std)
-        self.covar_module = gpytorch.kernels.ScaleKernel(
-            gpytorch.kernels.RBFKernel(
-                ard_num_dims=n_features,
-                active_dims=list(range(n_features)),
-            )
-        )
+        kernel_args = dict(ard_num_dims=n_features, active_dims=list(range(n_features)))
+        if kernel == "rbf":
+            base_kernel = gpytorch.kernels.RBFKernel(**kernel_args)
+        elif kernel == "matern52":
+            base_kernel = gpytorch.kernels.MaternKernel(nu=2.5, **kernel_args)
+        else:
+            raise ValueError(f"Unknown kernel {kernel!r}")
+        self.covar_module = gpytorch.kernels.ScaleKernel(base_kernel)
 
     def forward(self, x: torch.Tensor) -> gpytorch.distributions.MultivariateNormal:
         if self.mean_type == "constant":
