@@ -42,7 +42,7 @@ ELASTIC_TENSOR_DICT: Final[dict[str, list[float]]] = {
     "Mn": [246, 138, 110],  # approximate (complex α-Mn structure)  # noqa: RUF003
     "Cu": [168, 121, 75],
     "Si": [167, 65, 80],  # diamond cubic
-    "Re": [591, 361, 162],  # hcp reduced
+    "Re": [591, 361, 162],  # approximate; not the hcp single-crystal values
 }
 
 LATTICE_CONSTANTS_BCC_EXP: Final[dict[str, float]] = {
